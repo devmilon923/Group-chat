@@ -23,13 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Receive message from server
-// Assuming you have already established a socket connection
-socket.on("message", ({ userName, message }) => {
-    const messageElement = document.createElement("div");
-    messageElement.innerText = `${userName}: ${message}`; // Use both userName and message
-    document.getElementById("messages").appendChild(messageElement);
+  // Assuming you have already established a socket connection
+  socket.on("message", ({ userName, message }) => {
+    if(message=='Joined the room.'){
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-green-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
+    }else if(message=='Has left the chat.'){
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-red-200 p-3'>${userName}: ${message}</div>`;
+    }else{
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-white p-3'>${userName}: ${message}</div>`;
+    }
+    // const messageElement = document.createElement("div");
+    // messageElement.classList.add("mb-2");
+    // messageElement.classList.add("bg-white");
+    // messageElement.classList.add("p-3");
+    // messageElement.innerText = `${userName}: ${message}`; // Use both userName and message
+    // document.getElementById("messages").appendChild(messageElement);
   });
-  
-  
-  
 });

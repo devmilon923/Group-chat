@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
         socket.join(roomId);
         io.to(roomId).emit(
           "message",
-          { userName: socket.userName, message: `${socket.userName} joined the room.` } // Emit with name
+          { userName: socket.userName, message: `Joined the room.` } // Emit with name
         );
       } catch (err) {
         socket.emit("error", "Invalid token");
@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
       console.log("Client disconnected");
       const roomId = socket.roomId; // Retrieve roomId
       const userName = socket.userName || "Anonymous"; // Retrieve user name
-      io.to(roomId).emit("message", { userName, message: `${userName} has left the chat.` }); // Emit with name
+      io.to(roomId).emit("message", { userName, message: `Has left the chat.` }); // Emit with name
     });
   });
   

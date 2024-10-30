@@ -3,63 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <title>Chat Room</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      h1 {
-        color: #333;
-      }
-      #messages {
-        list-style-type: none;
-        padding: 0;
-        max-width: 500px;
-        width: 100%;
-      }
-      #messages li {
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-      }
-      #chat-form {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-      }
-      #chat-message {
-        width: 80%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-      button {
-        padding: 8px 12px;
-        margin-left: 8px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1>Welcome to Room: <%= roomId %></h1>
-    <ul id="messages"></ul>
-    <form id="chat-form">
-      <input
-        type="text"
-        id="chat-message"
-        placeholder="Type a message"
-        required
-      />
-      <button type="submit">Send</button>
-    </form>
+  <body class=" bg-gray-100 text-gray-800 flex items-center justify-center">
+
+    <div class="w-full max-w-lg p-4 bg-white rounded-lg shadow-md">
+      <h1 class="text-xl lg:text-xl font-bold text-center my-4 text-gray-800">
+        <span class="bg-yellow-500 rounded-lg p-1 text-white"><%= roomId %></span>
+      </h1>
+
+      <small class="block text-center mb-4">
+        ( Messages aren’t saved, so keep this page open. If you reload, messages will disappear,
+        <span class="font-semibold text-green-700">but you’ll stay connected.</span>  <br />
+        This keeps you completely <span class="text-yellow-600">anonymous </span>)
+      </small>
+
+      <ul
+        id="messages"
+        class="list-none p-3 bg-gray-50 rounded-lg shadow-inner h-60 overflow-y-auto mb-4"
+      >
+        <!-- Messages will be dynamically appended here -->
+      </ul>
+
+      <form id="chat-form" class="flex items-center">
+        <input
+          type="text"
+          id="chat-message"
+          placeholder="Type a message"
+          required
+          class="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+        />
+        <button
+          type="submit"
+          class="ml-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-md transition hover:bg-blue-700"
+        >
+          Send
+        </button>
+      </form>
+    </div>
 
     <!-- Include the Socket.IO client script -->
     <script src="/socket.io/socket.io.js"></script>
