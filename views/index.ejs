@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Group Chat</title>
+  <style>
+    /* Basic Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    input[type="text"] {
+      width: calc(100% - 24px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #room-id-display {
+      margin: 10px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Group Chat</h1>
+
+  <!-- Form to create a new room -->
+  <form id="create-room-form">
+    <button type="submit">Create Room</button>
+  </form>
+
+  <div id="room-id-display" style="display: none;"></div>
+
+  <!-- Form to join an existing room -->
+  <form id="join-room-form">
+    <input type="text" id="room-id" placeholder="Enter Room ID" required />
+    <input type="text" id="username" placeholder="Enter Name (optional)" />
+    <button type="submit">Join Room</button>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document
+        .getElementById("create-room-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const response = await fetch("/create-room", { method: "POST" });
+          const data = await response.json();
+          
+          // Display the room ID and show the copy button
+          const roomIdDisplay = document.getElementById("room-id-display");
+          roomIdDisplay.textContent = `Room Created! Room ID: ${data.roomId}`;
+          roomIdDisplay.style.display = "block";
+
+          // Copy the room ID to clipboard
+          await navigator.clipboard.writeText(data.roomId);
+          alert("Room ID copied to clipboard!");
+        });
+
+      document
+        .getElementById("join-room-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const roomId = document.getElementById("room-id").value;
+          const name = document.getElementById("username").value;
+
+          // Request token from the server
+          const response = await fetch("/join-room", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name }),
+          });
+          const data = await response.json();
+          const token = data.token;
+
+          // Redirect to chat page with room ID and token as query parameters
+          window.location.href = `/chat/${roomId}?token=${token}`;
+        });
+    });
+  </script>
+</body>
+</html>
