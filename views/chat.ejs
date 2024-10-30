@@ -9,9 +9,9 @@
   </head>
   <body class=" bg-gray-100 text-gray-800 flex items-center justify-center">
 
-    <div class="w-full max-w-lg p-4 bg-white rounded-lg shadow-md">
-      <h1 class="text-xl lg:text-xl font-bold text-center my-4 text-gray-800">
-        <span class="bg-yellow-500 rounded-lg p-1 text-white"><%= roomId %></span>
+    <div class="w-full max-w-lg p-4 bg-white rounded-lg border md:shadow-md">
+      <h1 class="bg-yellow-500 rounded-lg p-1 text-white text-md lg:text-xl font-bold text-center my-4">
+       <%= roomId %>
       </h1>
 
       <small class="block text-center mb-4">
@@ -22,7 +22,7 @@
 
       <ul
         id="messages"
-        class="list-none p-3 bg-gray-50 rounded-lg shadow-inner h-60 overflow-y-auto mb-4"
+        class="list-none p-3 bg-gray-50 rounded-lg shadow-inner h-96 overflow-y-auto mb-4"
       >
         <!-- Messages will be dynamically appended here -->
       </ul>

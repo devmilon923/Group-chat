@@ -43,12 +43,15 @@
           required
           class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
         />
+        <small>Note: Name is optional but you can add anyone!</small>
         <input
           type="text"
           id="username"
+          value="Anonymous"
           placeholder="Enter Name (optional)"
           class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
         />
+
         <button
           type="submit"
           class="w-full py-2 bg-blue-600 text-white rounded-md font-medium transition hover:bg-blue-700"
@@ -60,26 +63,45 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        const createdID = localStorage.getItem("createdID") || null;
+        const createdToken = localStorage.getItem("createdToken") || null;
+
+        if (createdID && createdToken) {
+          return (window.location.href = `/chat/${createdID}?token=${token}`);
+        }
         document
           .getElementById("create-room-form")
           .addEventListener("submit", async (e) => {
             e.preventDefault();
-            const response = await fetch("/create-room", { method: "POST" });
-            const data = await response.json();
 
+            const createdID = localStorage.getItem("createdID") || null;
+            const createdToken = localStorage.getItem("createdToken") || null;
+         
             // Display the room ID and show the copy button
             const roomIdDisplay = document.getElementById("room-id-display");
-            roomIdDisplay.innerHTML = `Room ID: <span class="bg-yellow-500 rounded-lg p-1 text-white">${data.roomId}</span>`;
+
+            if (createdID) {
+              roomIdDisplay.classList.remove("hidden");
+              roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${createdID}  </span></br> <button class='underline text-red-500 mt-2' onclick="removeOldRoom()">Delete Old Room</button>`;
+            } else {
+              roomIdDisplay.classList.remove("hidden");
+              const response = await fetch("/create-room", { method: "POST" });
+              const data = await response.json();
+              localStorage.setItem("createdID", data.roomId);
+              await navigator.clipboard.writeText(data.roomId);
+              roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${data.roomId}  </span></br> <a class='mt-3' onclick="removeOldRoom()">New Room Created successfully!</a>`;
+            }
+
             roomIdDisplay.classList.remove("hidden");
 
             // Copy the room ID to clipboard
-            await navigator.clipboard.writeText(data.roomId);
           });
 
         document
           .getElementById("join-room-form")
           .addEventListener("submit", async (e) => {
             e.preventDefault();
+
             const roomId = document.getElementById("room-id").value;
             const name = document.getElementById("username").value;
 
@@ -92,8 +114,8 @@
             const data = await response.json();
             const token = data.token;
 
-            // Redirect to chat page with room ID and token as query parameters
             window.location.href = `/chat/${roomId}?token=${token}`;
+            // Redirect to chat page with room ID and token as query parameters
           });
       });
     </script>

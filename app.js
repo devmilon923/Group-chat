@@ -40,7 +40,7 @@ app.post('/join-room', (req, res) => {
 
 // WebSocket connection handler
 io.on("connection", (socket) => {
-    console.log("New client connected");
+   
   
     socket.on("joinRoom", ({ roomId, token }) => {
       try {
@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
     });
   
     socket.on("disconnect", () => {
-      console.log("Client disconnected");
+      
       const roomId = socket.roomId; // Retrieve roomId
       const userName = socket.userName || "Anonymous"; // Retrieve user name
       io.to(roomId).emit("message", { userName, message: `Has left the chat.` }); // Emit with name

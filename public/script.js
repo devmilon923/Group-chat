@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Assuming you have already established a socket connection
   socket.on("message", ({ userName, message }) => {
     if(message=='Joined the room.'){
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-green-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-green-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
     }else if(message=='Has left the chat.'){
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-red-200 p-3'>${userName}: ${message}</div>`;
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-red-200 p-3'>${userName}: ${message}</div>`;
     }else{
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 bg-white p-3'>${userName}: ${message}</div>`;
+      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-white p-3'>${userName}: ${message}</div>`;
     }
     // const messageElement = document.createElement("div");
     // messageElement.classList.add("mb-2");
