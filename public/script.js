@@ -24,19 +24,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Receive message from server
   // Assuming you have already established a socket connection
-  socket.on("message", ({ userName, message }) => {
-    if(message=='Joined the room.'){
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-green-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
-    }else if(message=='Has left the chat.'){
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-red-200 p-3'>${userName}: ${message}</div>`;
-    }else{
-      document.getElementById("messages").innerHTML +=`<div class='mb-2 rounded bg-white p-3'>${userName}: ${message}</div>`;
+
+  const countDiv = document.getElementById("count");
+
+  socket.on("message", ({ userName, message, userCount }) => {
+    countDiv.innerText = userCount;
+    
+    const messagesContainer = document.getElementById("messages");
+    if (message == "Joined the room.") {
+      
+      countDiv.innerText = userCount;
+      document.getElementById(
+        "messages"
+      ).innerHTML += `<div class='mb-2 border rounded font-normal bg-green-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
+    } else if (message == "Has left the chat.") {
+     
+      countDiv.innerText = userCount;
+      document.getElementById(
+        "messages"
+      ).innerHTML += `<div class='mb-2 border font-normal rounded bg-red-200 p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
+    } else {
+     
+      countDiv.innerText = userCount;
+      document.getElementById(
+        "messages"
+      ).innerHTML += `<div class='mb-2 border rounded font-normal bg-white p-3'><span class='font-bold'>${userName}</span>: ${message}</div>`;
     }
-    // const messageElement = document.createElement("div");
-    // messageElement.classList.add("mb-2");
-    // messageElement.classList.add("bg-white");
-    // messageElement.classList.add("p-3");
-    // messageElement.innerText = `${userName}: ${message}`; // Use both userName and message
-    // document.getElementById("messages").appendChild(messageElement);
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
   });
 });

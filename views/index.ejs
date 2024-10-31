@@ -47,7 +47,7 @@
         <input
           type="text"
           id="username"
-          value="Anonymous"
+          value=""
           placeholder="Enter Name (optional)"
           class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
         />
@@ -62,62 +62,61 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      function removeOldRoom() {
+    localStorage.removeItem("createdID");
+    localStorage.removeItem("createdToken");
+    alert("Old room deleted successfully.");
+    location.reload();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const createdID = localStorage.getItem("createdID") || null;
+    const createdToken = localStorage.getItem("createdToken") || null;
+
+    if (createdID && createdToken) {
+      return (window.location.href = `/chat/${createdID}?token=${createdToken}`);
+    }
+
+    document
+      .getElementById("create-room-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+
         const createdID = localStorage.getItem("createdID") || null;
-        const createdToken = localStorage.getItem("createdToken") || null;
 
-        if (createdID && createdToken) {
-          return (window.location.href = `/chat/${createdID}?token=${token}`);
+        const roomIdDisplay = document.getElementById("room-id-display");
+        roomIdDisplay.classList.remove("hidden");
+
+        if (createdID) {
+          roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${createdID}</span><br/><button class='underline text-sm text-red-500 mt-2' onclick="removeOldRoom()">Delete Old Room</button>`;
+        } else {
+          const response = await fetch("/create-room", { method: "POST" });
+          const data = await response.json();
+          localStorage.setItem("createdID", data.roomId);
+          await navigator.clipboard.writeText(data.roomId);
+          roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${data.roomId}</span><br/><a class='mt-3'>New Room Created successfully!</a>`;
         }
-        document
-          .getElementById("create-room-form")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const createdID = localStorage.getItem("createdID") || null;
-            const createdToken = localStorage.getItem("createdToken") || null;
-         
-            // Display the room ID and show the copy button
-            const roomIdDisplay = document.getElementById("room-id-display");
-
-            if (createdID) {
-              roomIdDisplay.classList.remove("hidden");
-              roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${createdID}  </span></br> <button class='underline text-red-500 mt-2' onclick="removeOldRoom()">Delete Old Room</button>`;
-            } else {
-              roomIdDisplay.classList.remove("hidden");
-              const response = await fetch("/create-room", { method: "POST" });
-              const data = await response.json();
-              localStorage.setItem("createdID", data.roomId);
-              await navigator.clipboard.writeText(data.roomId);
-              roomIdDisplay.innerHTML = `<span class="bg-yellow-500 rounded-lg p-1 text-white">${data.roomId}  </span></br> <a class='mt-3' onclick="removeOldRoom()">New Room Created successfully!</a>`;
-            }
-
-            roomIdDisplay.classList.remove("hidden");
-
-            // Copy the room ID to clipboard
-          });
-
-        document
-          .getElementById("join-room-form")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const roomId = document.getElementById("room-id").value;
-            const name = document.getElementById("username").value;
-
-            // Request token from the server
-            const response = await fetch("/join-room", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name }),
-            });
-            const data = await response.json();
-            const token = data.token;
-
-            window.location.href = `/chat/${roomId}?token=${token}`;
-            // Redirect to chat page with room ID and token as query parameters
-          });
       });
+
+    document
+      .getElementById("join-room-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const roomId = document.getElementById("room-id").value;
+        const name = document.getElementById("username").value;
+
+        const response = await fetch("/join-room", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        const data = await response.json();
+        const token = data.token;
+
+        window.location.href = `/chat/${roomId}?token=${token}`;
+      });
+  });
     </script>
   </body>
 </html>

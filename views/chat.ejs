@@ -7,18 +7,27 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class=" bg-gray-100 text-gray-800 flex items-center justify-center">
-
+  <body class="bg-gray-100 text-gray-800 flex items-center justify-center">
     <div class="w-full max-w-lg p-4 bg-white rounded-lg border md:shadow-md">
-      <h1 class="bg-yellow-500 rounded-lg p-1 text-white text-md lg:text-xl font-bold text-center my-4">
-       <%= roomId %>
+      <h1
+        class="bg-yellow-500 rounded-lg p-1 text-white text-md lg:text-xl font-bold text-center my-4"
+      >
+        <%= roomId %>
       </h1>
 
       <small class="block text-center mb-4">
-        ( Messages aren’t saved, so keep this page open. If you reload, messages will disappear,
-        <span class="font-semibold text-green-700">but you’ll stay connected.</span>  <br />
-        This keeps you completely <span class="text-yellow-600">anonymous </span>)
+        ( Messages aren’t saved, so keep this page open. If you reload, messages
+        will disappear,
+        <span class="font-semibold text-green-700"
+          >but you’ll stay connected.</span
+        >
+        <br />
+        This keeps you completely
+        <span class="text-yellow-600">anonymous </span>)
       </small>
+      <p class="text-center font-normal mb-2 text-sm"
+        >Connected: <span id="count"></span
+      ></p>
 
       <ul
         id="messages"
