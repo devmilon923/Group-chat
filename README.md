@@ -68,9 +68,12 @@ This project is a real-time group chat application using **Express**, **Socket.I
 - **chatMessage**: Broadcasts a message to all users in the room.
 - **disconnect**: Decreases the user count and notifies remaining users when someone leaves the room.
 
-## LIVE URL
+## Live URL
+
+- **Please Note This**: Sometimes, it may take up to 60 seconds or more to load because this project is hosted on Render's free plan. The free plan automatically puts the site to sleep when inactive, so please be patient if there's a delay.
 
 https://group-chat-gbli.onrender.com
+
 
 ## License
 
