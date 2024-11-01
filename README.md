@@ -40,8 +40,7 @@ This project is a real-time group chat application using **Express**, **Socket.I
 
 - **JWT Secret Key**: Located within the main file (`app.js`), set as `JWT_SECRET`. Update it for production environments to enhance security.
 
-4. **Preview URL:**
-- Access the application: Open http://localhost:3000 in your browser.
+4. **Access the application:** Open http://localhost:3000 in your browser.
 
 
 # Some others information about this project:
