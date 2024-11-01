@@ -68,6 +68,10 @@ This project is a real-time group chat application using **Express**, **Socket.I
 - **chatMessage**: Broadcasts a message to all users in the room.
 - **disconnect**: Decreases the user count and notifies remaining users when someone leaves the room.
 
+## LIVE URL
+
+https://group-chat-gbli.onrender.com
+
 ## License
 
 This project is licensed under the **MIT License**.
