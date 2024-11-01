@@ -23,18 +23,15 @@ This project is a real-time group chat application using **Express**, **Socket.I
    git clone https://github.com/devmilon923/group-chat.git
    cd <repo-directory>
 
-
 2. **Install dependencies:**:
 
    ```bash
    npm install
 
-
 3. **Install dependencies:**:
 
    ```bash
    node app.js
-
 
 ## Configuration Note:
 
